@@ -1,0 +1,13 @@
+.git
+.venv
+venv
+env
+ENV
+__pycache__
+*.py[cod]
+.env
+.env.*
+*.db
+*.sqlite3
+*.log
+backend/Docker.dmg

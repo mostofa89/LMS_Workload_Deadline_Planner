@@ -1,6 +1,7 @@
 # Environment variables (contains database passwords & secrets)
 .env
 .env.*
+.env.example
 
 # Python virtual environment
 venv/
@@ -29,3 +30,6 @@ Thumbs.db
 
 # Log files
 *.log
+
+# Local dev seed script (prints registration keys)
+backend/scripts/seed_keys.py
