@@ -42,7 +42,9 @@ class Record(UUIDPk, Timestamps, Base):
     ip: Mapped[str | None] = mapped_column(String(45), nullable=True)
     meta: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict)
 
-
+#================================================================================
+# User and Role Management Models                                              ||
+#================================================================================
 class User(UUIDPk, Timestamps, Base):
     __tablename__ = "users"
 
