@@ -9,8 +9,8 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.config import get_settings
-from app.exceptions import AppError, PermissionDenied, ValidationFailed
-from app.formatting import (
+from app.controllers.exceptions import AppError, PermissionDenied, ValidationFailed
+from app.controllers.formatting import (
     SIGNUP_KEY_ROLES,
     _human_code,
     _link_from_invite,
@@ -31,8 +31,8 @@ from app.models import (
     User,
     UserRole,
 )
-from app.schemas import LoginResult, Principal, TokenPair
-from app.security import (
+from app.views.schemas import LoginResult, Principal, TokenPair
+from app.controllers.security import (
     create_jwt_token,
     hash_password,
     issue_email_verification,
@@ -295,7 +295,7 @@ def login(
     email = normalize_email(email)
     user = db.scalar(select(User).where(User.email == email))
     if not user or not user.password_hash or not verify_password(password, user.password_hash):
-        from app.errors import invalid_credentials
+        from app.controllers.errors import invalid_credentials
         raise invalid_credentials()
 
     if user.status != "active":
@@ -361,12 +361,12 @@ def revoke_session(db: Session, session_or_token: RefreshToken | str, reason: st
 def refresh_session(db: Session, raw_refresh_token: str) -> TokenPair:
     sess = get_session_by_token(db, raw_refresh_token)
     if not sess:
-        from app.exceptions import NotAuthenticated
+        from app.controllers.exceptions import NotAuthenticated
         raise NotAuthenticated("Invalid or expired session. Please log in again.")
 
     user = db.get(User, sess.user_id)
     if not user or user.status != "active":
-        from app.exceptions import PermissionDenied
+        from app.controllers.exceptions import PermissionDenied
         raise PermissionDenied("User account is inactive.")
 
     s = get_settings()

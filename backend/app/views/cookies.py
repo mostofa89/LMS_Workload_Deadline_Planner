@@ -6,8 +6,8 @@ from typing import Any
 from fastapi import Request, Response
 
 from app.config import get_settings
-from app.exceptions import AppError, NotAuthenticated
-from app.schemas import RefreshIn, TokenPair
+from app.controllers.exceptions import AppError, NotAuthenticated
+from app.views.schemas import RefreshIn, TokenPair
 
 REFRESH_COOKIE = "lms_refresh"
 CSRF_COOKIE = "lms_csrf"

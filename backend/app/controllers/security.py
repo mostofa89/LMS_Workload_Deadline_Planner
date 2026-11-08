@@ -16,7 +16,7 @@ from sqlalchemy.orm import Session
 
 from app.config import get_settings
 from app.models import Record, User, UserPreferences
-from app.utils import utcnow
+from app.controllers.utils import utcnow
 
 # ==================================================================================================
 # SECURITY                                                                                        ||

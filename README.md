@@ -2,6 +2,10 @@
 
 FastAPI + PostgreSQL backend for the LMS Workload & Deadline Planner.
 
+## Backend layout
+
+The application code is organized into three layers under `backend/app/`: `models/` contains SQLAlchemy models, `controllers/` contains business logic and its supporting services, and `views/` contains API routes, schemas, and request handling. The application entry point (`main.py`), configuration (`config.py`), and database setup (`database.py`) remain directly under `backend/app/`.
+
 ## Quick start
 
 ```bash
@@ -61,7 +65,7 @@ Students and staff sign up with a **registration key**. Each key belongs to one 
 | `support` | `SUP` | `staff` |
 | parent / guardian | none | `parent`. Uses a `guardian_code` from a student invite, not a registration key. |
 
-These are defined in `ROLE_KEY_PREFIX` and `SIGNUP_KEY_ROLES` in [backend/app/formatting.py](backend/app/formatting.py).
+These are defined in `ROLE_KEY_PREFIX` and `SIGNUP_KEY_ROLES` in [backend/app/controllers/formatting.py](backend/app/controllers/formatting.py).
 
 ### How keys work
 
@@ -154,14 +158,14 @@ Parent:
 
 ## TODO: what still needs to be added or fixed
 
-- [ ] **Assign the role at signup.** `signup()` in [backend/app/controls.py](backend/app/controls.py) checks the key's role but never creates a `UserRole`, so new users have no role. After the user is created, add `UserRole(user_id, role_id=get_role(...).id, scope_type=key_row.scope_type, scope_id=key_row.scope_id)`.
+- [ ] **Assign the role at signup.** `signup()` in [backend/app/controllers/controls.py](backend/app/controllers/controls.py) checks the key's role but never creates a `UserRole`, so new users have no role. After the user is created, add `UserRole(user_id, role_id=get_role(...).id, scope_type=key_row.scope_type, scope_id=key_row.scope_id)`.
 - [ ] **Add an endpoint for issuing keys.** Nothing in the API calls `issue_registration_key` yet. Add an admin-only route such as `POST /api/v1/admin/registration-keys`, plus routes to list and revoke keys.
 - [ ] **Fix `KEY_ALPHABET`.** `"LMS-F26-9XK72"` has only 11 distinct characters and includes `-`, which makes keys weak and hard to read. Use something like `"ABCDEFGHJKLMNPQRSTUVWXYZ23456789"`.
 - [ ] **Remove the `register` role,** which duplicates `registrar` and shares the `REG` prefix.
 - [ ] **Decide whether `admin` and `superadmin` can self-sign up.** Right now anyone holding one of those keys can create an admin account.
 - [ ] **Stop logging raw codes.** The signup audit record stores the full `registration_key` and `guardian_code` in `meta`. Store only a hint instead.
 - [ ] **Staff `role_key`:** either derive it from `key_row.role_key` or keep it required and document it in the frontend.
-- [ ] **Import `Any`** from `typing` in [backend/app/formatting.py](backend/app/formatting.py).
+- [ ] **Import `Any`** from `typing` in [backend/app/controllers/formatting.py](backend/app/controllers/formatting.py).
 - [ ] **Implement throttling.** `check_throttle` and `register_failure` are empty stubs, so codes can be guessed without limit.
 - [ ] **Store institution settings.** `get_settings(db, inst_id, key)` always returns hard-coded defaults and ignores `Institution.settings`.
 - [ ] **Add tests** for signup, key issuing and login.

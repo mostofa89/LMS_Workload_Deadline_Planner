@@ -6,7 +6,7 @@ from datetime import datetime
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.exceptions import AppError, PermissionDenied, ValidationFailed
+from app.controllers.exceptions import AppError, PermissionDenied, ValidationFailed
 from app.models import GuardianInvite, GuardianLink, Role, User
 
 STAF_SIGNUP_ROLE = (
