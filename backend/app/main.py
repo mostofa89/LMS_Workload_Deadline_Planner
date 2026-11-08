@@ -3,7 +3,7 @@ from __future__ import annotations
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
-from app.exceptions import AppError
+from app.controllers.exceptions import AppError
 from app.views import identity_router
 
 app = FastAPI(title="LMS Workload Deadline Planner")

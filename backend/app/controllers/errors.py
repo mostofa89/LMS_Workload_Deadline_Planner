@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from app.exceptions import AppError
+from app.controllers.exceptions import AppError
 
 
 def invalid_credentials() -> AppError:

@@ -3,6 +3,7 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 from typing import Any
+
 from sqlalchemy import (
     Boolean,
     DateTime,
@@ -18,9 +19,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base, Timestamps, UUIDPk, utcnow
 
-# ==================================================================================================
-# INSTITUTIONS & AUDIT                                                                             ||
-# ==================================================================================================
 
 class Institution(UUIDPk, Timestamps, Base):
     __tablename__ = "institutions"
@@ -44,10 +42,6 @@ class Record(UUIDPk, Timestamps, Base):
     ip: Mapped[str | None] = mapped_column(String(45), nullable=True)
     meta: Mapped[dict[str, Any]] = mapped_column(JSON, default=dict)
 
-
-# ==================================================================================================
-# USERS                                                                                           ||
-# ==================================================================================================
 
 class User(UUIDPk, Timestamps, Base):
     __tablename__ = "users"

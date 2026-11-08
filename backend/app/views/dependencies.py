@@ -6,8 +6,8 @@ from fastapi import Depends, Request
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.exceptions import NotAuthenticated
-from app.schemas import Principal
+from app.controllers.exceptions import NotAuthenticated
+from app.views.schemas import Principal
 
 
 def client_ip(request: Request) -> str:
@@ -24,7 +24,7 @@ def get_principal(request: Request, db: Session = Depends(get_db)) -> Principal:
     if not auth_header.startswith("Bearer "):
         raise NotAuthenticated("Missing bearer token")
     token = auth_header.removeprefix("Bearer ").strip()
-    from app.security import decode_jwt_token
+    from app.controllers.security import decode_jwt_token
     claims = decode_jwt_token(token, purpose="access")
     if not claims or "sub" not in claims:
         raise NotAuthenticated("Invalid or expired access token")

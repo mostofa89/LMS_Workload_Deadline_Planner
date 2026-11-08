@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-from app.exceptions import AppError
+from app.controllers.exceptions import AppError
 
 
 def utcnow() -> datetime:

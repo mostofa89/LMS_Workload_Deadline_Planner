@@ -9,12 +9,12 @@ from fastapi import APIRouter, Depends, Request, Response
 from sqlalchemy.orm import Session
 
 from app.config import get_settings
-from app.cookies import clear_cookies, refresh_from_request, set_session_cookie
-from app.dependencies import client_ip, get_db, get_principal, get_principle
-from app.exceptions import NotAuthenticated
+from app.views.cookies import clear_cookies, refresh_from_request, set_session_cookie
+from app.views.dependencies import client_ip, get_db, get_principal, get_principle
+from app.controllers.exceptions import NotAuthenticated
 from app.models import User
-from app.schemas import Principal, Principle, auth as schemas
-from app import controls
+from app.views.schemas import Principal, Principle, auth as schemas
+from app.controllers import controls
 
 identity_router = APIRouter(prefix="/auth", tags=["auth"])
 # Alias for typo compatibility
